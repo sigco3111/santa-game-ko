@@ -1,2 +1,3 @@
-# Santa-Game
+# Santa Game
+
 Et lite spillprosjekt: Santa Game.
