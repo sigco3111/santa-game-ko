@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b142c">
+    <meta name="description" content="Fly Santa’s sleigh over a snow-covered Nordic village. Deliver gifts in a 60-second Christmas arcade dash.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Santa Express: Chimney Panic!">
+    <meta property="og:description" content="How many gifts can you deliver in 60 seconds? Fly Santa’s sleigh and chase a new high score.">
+    <meta property="og:image" content="https://thestringtheories.github.io/Santa-Game/flight-preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="675">
+    <meta property="og:image:alt" content="Santa and his reindeer fly above a moonlit Nordic village in Santa Express.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="./gift.png" type="image/png">
+    <title>Santa Express: Chimney Panic! · North Pole Arcade</title>
+  </head>
+  <body data-mode="menu">
+    <div class="scenery" aria-hidden="true"><canvas id="sky"></canvas></div>
+    <canvas id="world" tabindex="-1" aria-label="3D sleigh flight over a snowy Nordic village"></canvas>
+    <div class="shade" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand" aria-label="North Pole Arcade">
+        <span class="brand-mark"><span data-icon="flake"></span></span>
+        <span class="wordmark">NORTH POLE<span>ARCADE</span></span>
+      </div>
+      <div class="top-actions">
+        <div class="best" aria-label="Local best score"><span class="trophy" data-icon="trophy"></span><span class="best-text"><span class="micro">BEST SCORE</span><strong id="best">000000</strong></span></div>
+        <button id="pause" class="icon-button" aria-label="Pause flight" title="Pause flight (Esc)" hidden><span data-icon="pause"></span></button>
+        <button id="sound" class="icon-button" aria-label="Mute sound" title="Mute sound (M)" aria-pressed="true"><span id="speaker" data-icon="sound"></span></button>
+        <button id="settings" class="icon-button" aria-label="Graphics settings" title="Graphics settings"><span data-icon="gear"></span></button>
+      </div>
+    </header>
+
+    <main>
+      <section id="menu" class="home-panel" aria-label="Start screen">
+        <h1 class="game-title" aria-label="Santa Express: Chimney Panic!">
+          <span class="title-line santa">SANTA<span class="holly" data-icon="holly" aria-hidden="true"></span></span>
+          <span class="title-line express">EXPRESS</span>
+          <span class="subtitle"><i aria-hidden="true"></i>CHIMNEY PANIC!<i aria-hidden="true"></i></span>
+        </h1>
+        <p class="premise">You’ve got 60 seconds to deliver presents to a snow-covered village. Aim for the glowing chimneys!</p>
+        <button class="primary" id="start"><span data-icon="play"></span>Start flight<span class="enter-key" aria-hidden="true">↵</span></button>
+        <p id="render-error" role="alert" hidden></p>
+      </section>
+
+      <section id="hud" aria-label="Flight instruments" hidden>
+        <div class="hud-stat"><span class="micro">SCORE</span><strong id="score">000000</strong></div>
+        <div class="hud-stat combo-stat"><span class="micro">COMBO</span><strong id="combo">×1</strong></div>
+        <div class="hud-stat time-stat"><span class="micro">TIME</span><strong id="time">1:00</strong></div>
+      </section>
+      <div id="lock-hint" hidden>DROP!</div>
+      <div id="flight-tip" hidden>Match the rings, then press <kbd>SPACE</kbd></div>
+      <div id="feedback" aria-hidden="true"></div>
+      <button id="skip-intro" class="secondary" hidden>Skip intro <kbd>↵</kbd></button>
+      <output id="fps" aria-label="Frame rate and render resolution" hidden></output>
+      <p id="announcer" class="sr-only" aria-live="polite"></p>
+
+      <section id="results" class="home-panel results" aria-label="Flight results" hidden>
+        <h2 class="result-heading">Route<br><span>complete!</span></h2>
+        <div class="score-ticket">
+          <div class="score-title"><span class="micro">FINAL SCORE</span><span id="record" hidden><span data-icon="trophy"></span> NEW BEST</span></div>
+          <strong id="final-score">0</strong>
+          <div class="receipt"><span><b id="delivered">0</b> gifts delivered</span><span><b id="streak">0</b> best streak</span></div>
+        </div>
+        <div class="result-actions"><button class="primary" id="replay"><span data-icon="play"></span>Fly again</button><button class="secondary" id="share">Copy score</button></div>
+        <button class="text-button" id="home">Back to title</button>
+        <textarea id="share-text" aria-label="Score to copy" readonly hidden></textarea>
+      </section>
+    </main>
+
+    <footer class="controls-bar">
+      <div class="controls">
+        <span class="control"><span class="keys"><kbd>←</kbd><kbd>→</kbd><span class="or">/</span><kbd>A</kbd><kbd>D</kbd></span>Steer</span>
+        <span class="control"><kbd class="space">SPACE</kbd>Drop gift</span>
+      </div>
+      <button class="guide-button" id="guide"><span data-icon="book"></span>Flight guide</button>
+    </footer>
+    <div id="touch-controls" aria-label="Touch controls" hidden><button id="left" aria-label="Steer left">←</button><button id="right" aria-label="Steer right">→</button><button id="drop"><span data-icon="gift"></span>Drop</button></div>
+
+    <dialog id="dialog" aria-labelledby="dialog-title">
+      <div class="dialog-inner">
+        <button id="close-dialog" class="close" aria-label="Close">×</button>
+        <span class="dialog-icon" data-icon="gift"></span>
+        <h2 id="dialog-title">Flight guide</h2>
+        <div id="guide-content">
+          <p>Deliver as many gifts as you can in 60 seconds. Santa flies forward on his own.</p>
+          <ul><li><b>Steer</b> with <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd>.</li><li><b>Drop a gift</b> with <kbd>SPACE</kbd> when the chimney ring turns mint and says <b>DROP!</b></li><li>Each delivery earns 100 points. Consecutive hits raise the multiplier up to <b>×5</b>. A missed gift resets the streak.</li></ul>
+          <p class="extra-keys"><kbd>ESC</kbd> Pause flight <span>·</span> <kbd>M</kbd> Sound</p>
+        </div>
+        <p id="pause-copy" hidden>Your sleigh is holding position.</p>
+        <div id="settings-content" hidden>
+          <fieldset><legend>Graphics quality</legend><div class="quality-options">
+            <label><input type="radio" name="quality" value="low"><span>Low</span></label>
+            <label><input type="radio" name="quality" value="medium"><span>Medium</span></label>
+            <label><input type="radio" name="quality" value="high"><span>High</span></label>
+          </div></fieldset>
+          <p id="quality-info"></p>
+          <label class="check-setting"><input type="checkbox" id="show-fps"> Show FPS and render resolution</label>
+        </div>
+        <button class="primary" id="dialog-action">Got it</button>
+      </div>
+    </dialog>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
