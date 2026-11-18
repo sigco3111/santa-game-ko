@@ -45,7 +45,7 @@ lenke der spillet kan spilles i nettleseren via GitHub Pages.
 - Følg publiseringen til den er fullført, og åpne den faktiske Pages-lenken.
   Kontroller at spillet starter, kan spilles og laster ressursene sine også
   etter en sideoppdatering.
-- Oppdater `README.md` med lenken «Spill Santa Game», en kort forklaring av
+- Oppdater `README.md` med lenken «Play Santa Express in your browser», en kort forklaring av
   styringen og faktiske kommandoer for lokal kjøring og eventuell bygging.
 - Gi brukeren både GitHub-lenken og den bekreftede spill-lenken. Oppgi hva som
   er testet. En vellykket push alene bekrefter ikke at spillet er publisert.

@@ -1,12 +1,18 @@
 # Santa Express: Chimney Panic!
 
-**[Spill Santa Game](https://thestringtheories.github.io/Santa-Game/)**
+You have 60 seconds to fly Santa’s sleigh over a Nordic village and drop presents down glowing chimneys. How many can you deliver before the bell?
 
-![Santa and two reindeer flying over the village under the northern lights](public/flight-preview.jpg)
+**[Play Santa Express in your browser](https://thestringtheories.github.io/Santa-Game/)**
 
-Fly Santa’s sleigh over a Nordic village and deliver as many presents as possible in 60 seconds. A dotted line predicts each landing. When the marker meets a chimney, its ring turns mint and **DROP!** appears. Press Space to send the gift down.
+[![Play Santa Express in your browser. Santa and two reindeer fly over the village under the northern lights.](public/flight-preview.jpg)](https://thestringtheories.github.io/Santa-Game/)
+
+## Building in public
+
+I gave GPT-6.2 Astra one prompt for a 3D Christmas game in Three.js. That first prompt produced a playable prototype with steering, gift drops and score combos. After seeing the first flight, I asked for a cinematic pass. That’s how the camera came to swoop between the houses before catching up with Santa, and how his beard and scarf started moving in the wind.
 
 ## Controls
+
+Watch the dotted line beneath the sleigh. When the chimney ring turns mint and **DROP!** appears, press Space.
 
 | Action | Control |
 | --- | --- |
