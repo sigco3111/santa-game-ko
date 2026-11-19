@@ -1,108 +1,105 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0b142c">
-    <meta name="description" content="Fly Santa’s sleigh and drop presents down chimneys in 60 seconds. This 3D browser game started with one prompt to GPT-6.2 Astra.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Santa Express: Chimney Panic!">
-    <meta property="og:description" content="How many gifts can you deliver in 60 seconds? Fly Santa’s sleigh in a 3D browser game that started with one prompt to GPT-6.2 Astra.">
-    <meta property="og:image" content="https://thestringtheories.github.io/Santa-Game/flight-preview.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="675">
-    <meta property="og:image:alt" content="Santa and his reindeer fly above a moonlit Nordic village in Santa Express.">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="./gift.png" type="image/png">
-    <title>Santa Express: Chimney Panic! · North Pole Arcade</title>
-  </head>
-  <body data-mode="menu">
-    <div class="scenery" aria-hidden="true"><canvas id="sky"></canvas></div>
-    <canvas id="world" tabindex="-1" aria-label="3D sleigh flight over a snowy Nordic village"></canvas>
-    <div class="shade" aria-hidden="true"></div>
-
-    <header class="topbar">
-      <div class="brand" aria-label="North Pole Arcade">
-        <span class="brand-mark"><span data-icon="flake"></span></span>
-        <span class="wordmark">NORTH POLE<span>ARCADE</span></span>
-      </div>
-      <div class="top-actions">
-        <div class="best" aria-label="Local best score"><span class="trophy" data-icon="trophy"></span><span class="best-text"><span class="micro">BEST SCORE</span><strong id="best">000000</strong></span></div>
-        <button id="pause" class="icon-button" aria-label="Pause flight" title="Pause flight (Esc)" hidden><span data-icon="pause"></span></button>
-        <button id="sound" class="icon-button" aria-label="Mute sound" title="Mute sound (M)" aria-pressed="true"><span id="speaker" data-icon="sound"></span></button>
-        <button id="settings" class="icon-button" aria-label="Graphics settings" title="Graphics settings"><span data-icon="gear"></span></button>
-      </div>
-    </header>
-
-    <main>
-      <section id="menu" class="home-panel" aria-label="Start screen">
-        <h1 class="game-title" aria-label="Santa Express: Chimney Panic!">
-          <span class="title-line santa">SANTA<span class="holly" data-icon="holly" aria-hidden="true"></span></span>
-          <span class="title-line express">EXPRESS</span>
-          <span class="subtitle"><i aria-hidden="true"></i>CHIMNEY PANIC!<i aria-hidden="true"></i></span>
-        </h1>
-        <p class="premise">You’ve got 60 seconds to deliver presents to a snow-covered village. Aim for the glowing chimneys!</p>
-        <button class="primary" id="start"><span data-icon="play"></span>Start flight<span class="enter-key" aria-hidden="true">↵</span></button>
-        <p id="render-error" role="alert" hidden></p>
-      </section>
-
-      <section id="hud" aria-label="Flight instruments" hidden>
-        <div class="hud-stat"><span class="micro">SCORE</span><strong id="score">000000</strong></div>
-        <div class="hud-stat combo-stat"><span class="micro">COMBO</span><strong id="combo">×1</strong></div>
-        <div class="hud-stat time-stat"><span class="micro">TIME</span><strong id="time">1:00</strong></div>
-      </section>
-      <div id="lock-hint" hidden>DROP!</div>
-      <div id="flight-tip" hidden>Match the rings, then press <kbd>SPACE</kbd></div>
-      <div id="feedback" aria-hidden="true"></div>
-      <button id="skip-intro" class="secondary" hidden>Skip intro <kbd>↵</kbd></button>
-      <output id="fps" aria-label="Frame rate and render resolution" hidden></output>
-      <p id="announcer" class="sr-only" aria-live="polite"></p>
-
-      <section id="results" class="home-panel results" aria-label="Flight results" hidden>
-        <h2 class="result-heading">Route<br><span>complete!</span></h2>
-        <div class="score-ticket">
-          <div class="score-title"><span class="micro">FINAL SCORE</span><span id="record" hidden><span data-icon="trophy"></span> NEW BEST</span></div>
-          <strong id="final-score">0</strong>
-          <div class="receipt"><span><b id="delivered">0</b> gifts delivered</span><span><b id="streak">0</b> best streak</span></div>
-        </div>
-        <div class="result-actions"><button class="primary" id="replay"><span data-icon="play"></span>Fly again</button><button class="secondary" id="share">Copy score</button></div>
-        <button class="text-button" id="home">Back to title</button>
-        <textarea id="share-text" aria-label="Score to copy" readonly hidden></textarea>
-      </section>
-    </main>
-
-    <footer class="controls-bar">
-      <div class="controls">
-        <span class="control"><span class="keys"><kbd>←</kbd><kbd>→</kbd><span class="or">/</span><kbd>A</kbd><kbd>D</kbd></span>Steer</span>
-        <span class="control"><kbd class="space">SPACE</kbd>Drop gift</span>
-      </div>
-      <button class="guide-button" id="guide"><span data-icon="book"></span>Flight guide</button>
-    </footer>
-    <div id="touch-controls" aria-label="Touch controls" hidden><button id="left" aria-label="Steer left">←</button><button id="right" aria-label="Steer right">→</button><button id="drop"><span data-icon="gift"></span>Drop</button></div>
-
-    <dialog id="dialog" aria-labelledby="dialog-title">
-      <div class="dialog-inner">
-        <button id="close-dialog" class="close" aria-label="Close">×</button>
-        <span class="dialog-icon" data-icon="gift"></span>
-        <h2 id="dialog-title">Flight guide</h2>
-        <div id="guide-content">
-          <p>Deliver as many gifts as you can in 60 seconds. Santa flies forward on his own.</p>
-          <ul><li><b>Steer</b> with <kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd>.</li><li><b>Drop a gift</b> with <kbd>SPACE</kbd> when the chimney ring turns mint and says <b>DROP!</b></li><li>Each delivery earns 100 points. Consecutive hits raise the multiplier up to <b>×5</b>. A missed gift resets the streak.</li></ul>
-          <p class="extra-keys"><kbd>ESC</kbd> Pause flight <span>·</span> <kbd>M</kbd> Sound</p>
-        </div>
-        <p id="pause-copy" hidden>Your sleigh is holding position.</p>
-        <div id="settings-content" hidden>
-          <fieldset><legend>Graphics quality</legend><div class="quality-options">
-            <label><input type="radio" name="quality" value="low"><span>Low</span></label>
-            <label><input type="radio" name="quality" value="medium"><span>Medium</span></label>
-            <label><input type="radio" name="quality" value="high"><span>High</span></label>
-          </div></fieldset>
-          <p id="quality-info"></p>
-          <label class="check-setting"><input type="checkbox" id="show-fps"> Show FPS and render resolution</label>
-        </div>
-        <button class="primary" id="dialog-action">Got it</button>
-      </div>
-    </dialog>
-    <script type="module" src="./src/main.ts"></script>
-  </body>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b142c">
+<meta name="description" content="60초 동안 산타의 썰매를 몰아 굴뚝에 선물을 떨어뜨리세요. GPT-6.2 Astra 프롬프트 하나로 만든 3D 브라우저 게임입니다. (한국어화: sigco3111, 원작: thestringtheories/Santa-Game)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="산타 익스프레스: 굴뚝 대소동!">
+<meta property="og:description" content="60초 안에 선물을 몇 개나 배달할 수 있을까요? GPT-6.2 Astra 프롬프트 하나로 시작된 3D 브라우저 게임에서 산타의 썰매를 조종하세요.">
+<meta property="og:image" content="https://sigco3111.github.io/santa-game-ko/flight-preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="달빛 아래 북유럽 마을 위를 나는 산타와 순록들, 산타 익스프레스 게임 화면.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="./gift.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<title>산타 익스프레스: 굴뚝 대소동! · 북극 아케이드</title>
+</head>
+<body data-mode="menu">
+<div class="scenery" aria-hidden="true"><canvas id="sky"></canvas></div>
+<canvas id="world" tabindex="-1" aria-label="북유럽 눈 덮인 마을 위를 나는 3D 썰매 비행 장면"></canvas>
+<div class="shade" aria-hidden="true"></div>
+<header class="topbar">
+<div class="brand" aria-label="북극 아케이드">
+<span class="brand-mark"><span data-icon="flake"></span></span>
+<span class="wordmark">북극<span>아케이드</span></span>
+</div>
+<div class="top-actions">
+<div class="best" aria-label="이 기기의 최고 점수"><span class="trophy" data-icon="trophy"></span><span class="best-text"><span class="micro">최고 점수</span><strong id="best">000000</strong></span></div>
+<button id="pause" class="icon-button" aria-label="비행 일시정지" title="비행 일시정지 (Esc)" hidden><span data-icon="pause"></span></button>
+<button id="sound" class="icon-button" aria-label="소리 끄기" title="소리 끄기 (M)" aria-pressed="true"><span id="speaker" data-icon="sound"></span></button>
+<button id="settings" class="icon-button" aria-label="그래픽 설정" title="그래픽 설정"><span data-icon="gear"></span></button>
+</div>
+</header>
+<main>
+<section id="menu" class="home-panel" aria-label="시작 화면">
+<h1 class="game-title" aria-label="산타 익스프레스: 굴뚝 대소동!">
+<span class="title-line santa">산타<span class="holly" data-icon="holly" aria-hidden="true"></span></span>
+<span class="title-line express">익스프레스</span>
+<span class="subtitle"><i aria-hidden="true"></i>굴뚝 대소동!<i aria-hidden="true"></i></span>
+</h1>
+<p class="premise">60초 안에 눈 덮인 마을에 선물을 배달하세요. 빛나는 굴뚝을 노리세요!</p>
+<button class="primary" id="start"><span data-icon="play"></span>비행 시작<span class="enter-key" aria-hidden="true">↵</span></button>
+<p id="render-error" role="alert" hidden></p>
+</section>
+<section id="hud" aria-label="비행 계기판" hidden>
+<div class="hud-stat"><span class="micro">점수</span><strong id="score">000000</strong></div>
+<div class="hud-stat combo-stat"><span class="micro">콤보</span><strong id="combo">×1</strong></div>
+<div class="hud-stat time-stat"><span class="micro">남은 시간</span><strong id="time">1:00</strong></div>
+</section>
+<div id="lock-hint" hidden>DROP!</div>
+<div id="flight-tip" hidden>고리를 맞춘 뒤 <kbd>SPACE</kbd>를 누르세요</div>
+<div id="feedback" aria-hidden="true"></div>
+<button id="skip-intro" class="secondary" hidden>인트로 건너뛰기 <kbd>↵</kbd></button>
+<output id="fps" aria-label="초당 프레임 수와 렌더 해상도" hidden></output>
+<p id="announcer" class="sr-only" aria-live="polite"></p>
+<section id="results" class="home-panel results" aria-label="비행 결과" hidden>
+<h2 class="result-heading">배달<br><span>완료!</span></h2>
+<div class="score-ticket">
+<div class="score-title"><span class="micro">최종 점수</span><span id="record" hidden><span data-icon="trophy"></span> 최고 기록!</span></div>
+<strong id="final-score">0</strong>
+<div class="receipt"><span><b id="delivered">0</b>개 배달</span><span><b id="streak">0</b> 최고 연속</span></div>
+</div>
+<div class="result-actions"><button class="primary" id="replay"><span data-icon="play"></span>다시 날기</button><button class="secondary" id="share">점수 복사</button></div>
+<button class="text-button" id="home">처음 화면으로</button>
+<textarea id="share-text" aria-label="복사할 점수" readonly hidden></textarea>
+</section>
+</main>
+<footer class="controls-bar">
+<div class="controls">
+<span class="control"><span class="keys"><kbd>←</kbd><kbd>→</kbd><span class="or">/</span><kbd>A</kbd><kbd>D</kbd></span>조종</span>
+<span class="control"><kbd class="space">SPACE</kbd>선물 떨어뜨리기</span>
+</div>
+<button class="guide-button" id="guide"><span data-icon="book"></span>비행 안내</button>
+</footer>
+<div id="touch-controls" aria-label="터치 조작" hidden><button id="left" aria-label="왼쪽으로 조종">←</button><button id="right" aria-label="오른쪽으로 조종">→</button><button id="drop"><span data-icon="gift"></span>투하</button></div>
+<dialog id="dialog" aria-labelledby="dialog-title">
+<div class="dialog-inner">
+<button id="close-dialog" class="close" aria-label="닫기">×</button>
+<span class="dialog-icon" data-icon="gift"></span>
+<h2 id="dialog-title">비행 안내</h2>
+<div id="guide-content">
+<p>60초 동안 최대한 많은 선물을 배달하세요. 산타는 스스로 앞으로 날아갑니다.</p>
+<ul><li><b>조종</b>: <kbd>←</kbd> <kbd>→</kbd> 또는 <kbd>A</kbd> <kbd>D</kbd>.</li><li><b>선물 떨어뜨리기</b>: 굴뚝 고리가 민트색으로 바뀌고 <b>DROP!</b>이 뜨면 <kbd>SPACE</kbd>를 누르세요.</li><li>배달 한 번에 100점. 연속으로 성공하면 배율이 최대 <b>×5</b>까지 올라갑니다. 놓치면 연속 기록이 초기화됩니다.</li></ul>
+<p class="extra-keys"><kbd>ESC</kbd> 비행 일시정지 <span>·</span> <kbd>M</kbd> 소리</p>
+</div>
+<p id="pause-copy" hidden>썰매가 제자리에 떠 있습니다.</p>
+<div id="settings-content" hidden>
+<fieldset><legend>그래픽 품질</legend><div class="quality-options">
+<label><input type="radio" name="quality" value="low"><span>낮음</span></label>
+<label><input type="radio" name="quality" value="medium"><span>보통</span></label>
+<label><input type="radio" name="quality" value="high"><span>높음</span></label>
+</div></fieldset>
+<p id="quality-info"></p>
+<label class="check-setting"><input type="checkbox" id="show-fps"> FPS와 렌더 해상도 표시</label>
+</div>
+<button class="primary" id="dialog-action">확인</button>
+</div>
+</dialog>
+<script type="module" src="./src/main.ts"></script>
+</body>
 </html>
