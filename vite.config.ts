@@ -25,7 +25,7 @@ const KO: Array<[string, string]> = [
   ["'MISSED'", "'놓침'"],
   ["'Match the rings, then tap Drop'", "'링을 맞춘 뒤 투하를 누르세요'"],
   ["'Steer with the left and right buttons, or use A/D and the arrow keys.'", "'왼쪽·오른쪽 버튼이나 A/D, 방향키로 조향하세요.'"],
-  ["'Tap Drop or press SPACE when the chimney ring turns mint and says DROP!'", "'굴뚝 링이 민트색으로 바뀌고 DROP!이 뜨면 투하를 누르거나 SPACE를 누르세요!'"],
+  ["'Tap Drop or press SPACE when the chimney ring turns mint and says DROP!'", "'굴뚝 링이 민트색으로 바뀌고 투하!가 뜨면 투하 버튼이나 SPACE를 누르세요!'"],
   ["`Gift delivered. ${score} points, streak of ${streak}.`", "`선물 배달 완료. ${score}점, ${streak}연속.`"],
   ["'The village needs WebGL 2. Turn on hardware acceleration in your browser, then reload to play.'", "'마을을 보려면 WebGL 2가 필요해요. 브라우저의 하드웨어 가속을 켠 뒤 새로고침해 주세요.'"],
   ["`I delivered ${deliveries} ${deliveries === 1 ? 'gift' : 'gifts'} for ${score.toLocaleString('en-US')} points in Santa Express: Chimney Panic! Can you beat my score? ${url}`", "`산타 익스프레스에서 선물 ${deliveries}개를 배달하고 ${score.toLocaleString('en-US')}점을 얻었어요! 제 점수를 넘어설 수 있나요? ${url}`"],
