@@ -14,11 +14,11 @@
 
 | 시작 화면 | 비행 중 (HUD: 점수·콤보·남은 시간) |
 | --- | --- |
-| ![시작 화면](screenshots/3-title.png) | ![비행 중](screenshots/4-gameplay.png) |
+| ![시작 화면](screenshots/3-title.png) | ![비행 중](screenshots/1-gameplay.png) |
 
 | 일시정지 | 그래픽 설정 | 결과 화면 |
 | --- | --- | --- |
-| ![일시정지](screenshots/5-pause.png) | ![그래픽 설정](screenshots/6-settings.png) | ![결과 화면](screenshots/7-result.png) |
+| ![일시정지](screenshots/5-pause.png) | ![그래픽 설정](screenshots/6-settings.png) | ![결과 화면](screenshots/2-result.png) |
 
 ## 한국어판에서 바뀐 것
 
