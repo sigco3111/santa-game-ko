@@ -6,9 +6,19 @@
 
 > 원작 [thestringtheories/Santa-Game](https://github.com/thestringtheories/Santa-Game)을 포크해 화면 문구를 한국어로 옮긴 버전입니다. 원작 영어 README는 [README.en.md](README.en.md)에 그대로 보존했습니다.
 
-[![원작 미리보기 (영어 화면)](public/flight-preview.jpg)](https://sigco3111.github.io/santa-game-ko/)
+[![한국어판 시작 화면](screenshots/3-title.png)](https://sigco3111.github.io/santa-game-ko/)
 
-위 이미지는 원작 저장소에 들어 있는 미리보기 이미지(영어 화면)입니다. 한국어판 화면 스크린샷은 추후 추가할 예정입니다.
+## 화면
+
+한국어판 배포 빌드에서 직접 캡처한 화면입니다.
+
+| 시작 화면 | 비행 중 (HUD: 점수·콤보·남은 시간) |
+| --- | --- |
+| ![시작 화면](screenshots/3-title.png) | ![비행 중](screenshots/4-gameplay.png) |
+
+| 일시정지 | 그래픽 설정 | 결과 화면 |
+| --- | --- | --- |
+| ![일시정지](screenshots/5-pause.png) | ![그래픽 설정](screenshots/6-settings.png) | ![결과 화면](screenshots/7-result.png) |
 
 ## 한국어판에서 바뀐 것
 
