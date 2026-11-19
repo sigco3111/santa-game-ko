@@ -22,6 +22,7 @@ const KO: Array<[string, string]> = [
   ["'Score copied to clipboard.'", "'점수를 클립보드에 복사했어요.'"],
   ["'Select the score text and copy it.'", "'점수 글자를 선택해서 복사하세요.'"],
   ["'TAP'", "'탭'"],
+  ["'MISSED'", "'놓침'"],
   ["'Match the rings, then tap Drop'", "'링을 맞춘 뒤 투하를 누르세요'"],
   ["'Steer with the left and right buttons, or use A/D and the arrow keys.'", "'왼쪽·오른쪽 버튼이나 A/D, 방향키로 조향하세요.'"],
   ["'Tap Drop or press SPACE when the chimney ring turns mint and says DROP!'", "'굴뚝 링이 민트색으로 바뀌고 DROP!이 뜨면 투하를 누르거나 SPACE를 누르세요!'"],
